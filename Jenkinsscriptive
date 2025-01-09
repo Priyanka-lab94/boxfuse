@@ -1,12 +1,12 @@
 node {
     def remote = [:]
     remote.name = 'remote-host'
-    remote.host = '3.110.44.245'
+    remote.host = '3.80.152.165'
     remote.user = 'ubuntu'
     remote.allowAnyHosts = true
 
     stage('GIT checkout') {
-        checkout scm: [$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/EmergencyTechOps/boxfuse-sample-java-war-hello.git']]]
+        checkout scm: [$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/Priyanka-lab94/boxfuse.git']]]
     }
 
     stage('Build') {
@@ -15,11 +15,11 @@ node {
     }
 
     stage('Deploy') {
-        sshagent(['2d7bdf80-eef0-415a-8cb6-1c957ec5ff91']) {
-            sh 'scp -o StrictHostKeyChecking=no target/boxfuse-sample-java-war-hello.war ubuntu@3.110.44.245:/home/ubuntu/apache-tomcat-9.0.98/webapps/'
+        sshagent(['f61956e2-58e5-437f-aa47-5629696bfc63']) {
+            sh 'scp -o StrictHostKeyChecking=no target/boxfuse-sample-java-war-hello.war ubuntu@3.80.152.165:/home/ubuntu/apache-tomcat-9.0.98/webapps/'
             
-            sh 'ssh ubuntu@3.110.44.245 sudo /home/ubuntu/apache-tomcat-9.0.98/bin/shutdown.sh'
-            sh 'ssh ubuntu@3.110.44.245 sudo /home/ubuntu/apache-tomcat-9.0.98/bin/startup.sh'
+            sh 'ssh ubuntu@3.80.152.165 sudo /home/ubuntu/apache-tomcat-9.0.98/bin/shutdown.sh'
+            sh 'ssh ubuntu@3.80.152.165 sudo /home/ubuntu/apache-tomcat-9.0.98/bin/startup.sh'
         }
     }
 }
