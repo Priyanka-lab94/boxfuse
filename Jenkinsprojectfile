@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: ' ', description: 'Specify the branch name to deploy')
+        string(name: 'BRANCH_NAME', defaultValue: 'fe/dev', description: 'Specify the branch name to deploy')
     }
     stages {
         stage("GIT checkout") {
@@ -9,7 +9,7 @@ pipeline {
                 script {
                     // Checkout the specified branch
                     def branchName = params.BRANCH_NAME
-                    checkout([$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[url: 'https://github.com/emergencydevops-collab/boxfuse-sample-java-war-hello.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[url: 'https://github.com/Priyanka-lab94/boxfuse.git']]])
                 }
             }
          }
@@ -30,7 +30,7 @@ pipeline {
                 expression { params.BRANCH_NAME == 'fe/dev' }
             }
             steps {
-                deployTodevops('3.110.103.151', 'devops', 'devops', 'http://3.110.103.151:8080/manager/text', '/boxfuse-sample-java-war-hello', 'Dev')
+                deployTodevops('18.212.177.66', 'devops', 'devops', 'http://18.212.177.66:8080/manager/text', '/boxfuse', 'Dev')
             }
         }
         stage("Deploy to UAT") {
@@ -38,18 +38,18 @@ pipeline {
                 expression { params.BRANCH_NAME == 'fe/qa' }
             }
             steps {
-                deployTodevops('15.206.79.78', 'devops', 'devops', 'http://15.206.79.78:8080/manager/text', '/boxfuse-sample-java-war-hello', 'UAT')
+                deployTodevops('54.205.102.210', 'devops', 'devops', 'http://54.205.102.210:8080/manager/text', '/boxfuse', 'UAT')
             }
         }
         stage("Deploy to Prod") {
             when {
-                expression { params.BRANCH_NAME == 'master' }
+                expression { params.BRANCH_NAME == 'main' }
             }
             steps {
                 input(message: "Do you want to proceed to PROD?", ok: "Proceed") // Approval step
 
                 // Deploy to PROD server after approval
-                deployTodevops('13.235.133.111', 'devops', 'devops', 'http://13.235.133.111:8080/manager/text', '/boxfuse-sample-java-war-hello', 'Prod')
+                deployTodevops('44.211.78.56', 'devops', 'devops', 'http://44.211.78.56:8080/manager/text', '/boxfuse', 'Prod')
                 
                 // Send Slack notification
                 slackSend(channel: 'devops-after-hours', message: "Deployment to PROD has been approved by manager.")
