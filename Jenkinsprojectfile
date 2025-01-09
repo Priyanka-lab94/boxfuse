@@ -59,7 +59,7 @@ pipeline {
 }
 
 def deployTodevops(devopsIP, username, password, devopsURL, contextPath, environment) {
-    def warFileName = 'target/boxfuse-sample-java-war-hello.war'
+    def warFileName = 'target/boxfuse.war'
 
     // Deploy the WAR file using curl
     sh """
