@@ -22,10 +22,10 @@ pipeline {
 
                        
                        sh """
-                            scp -o StrictHostKeyChecking=no  target/boxfuse-sample-java-war-hello.war ubuntu@52.23.203.224:/home/ubuntu/apache-tomcat-9.0.98/webapps
+                            scp -o StrictHostKeyChecking=no  target/boxfuse-sample-java-war-hello.war ubuntu@3.80.152.165:/home/ubuntu/apache-tomcat-9.0.98/webapps
                             
-                            ssh ubuntu@52.23.203.224 "sudo /home/ubuntu/apache-tomcat-9.0.98/bin/shutdown.sh"
-                            ssh ubuntu@52.23.203.224 "sudo /home/ubuntu/apache-tomcat-9.0.98/bin/startup.sh"
+                            ssh ubuntu@3.80.152.165 "sudo /home/ubuntu/apache-tomcat-9.0.98/bin/shutdown.sh"
+                            ssh ubuntu@3.80.152.165 "sudo /home/ubuntu/apache-tomcat-9.0.98/bin/startup.sh"
                             
                           """
     
