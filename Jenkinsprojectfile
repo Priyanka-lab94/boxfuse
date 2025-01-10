@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: ' ', description: 'Specify the branch name to deploy')
+        string(name: 'BRANCH_NAME', defaultValue: 'fe/dev', description: 'Specify the branch name to deploy')
     }
     stages {
         stage("GIT checkout") {
@@ -22,7 +22,7 @@ pipeline {
         stage("Build") {
             steps {
                 sh "mvn clean package"
-                sh "mv target/*.war target/boxfuse-sample-java-war-hello.war"
+                sh "mv target/*.war target/boxfuse.war"
             }
         }
         stage("Deploy to Dev") {
@@ -30,7 +30,7 @@ pipeline {
                 expression { params.BRANCH_NAME == 'fe/dev' }
             }
             steps {
-                deployTodevops('18.212.177.66', 'devops', 'devops', 'http://18.212.177.66:8080/manager/text', '/boxfuse', 'Dev')
+                deployTodevops('3.80.145.104', 'devops', 'devops', 'http://3.80.145.104:8080/manager/text', '/boxfuse', 'Dev')
             }
         }
         stage("Deploy to UAT") {
@@ -38,7 +38,7 @@ pipeline {
                 expression { params.BRANCH_NAME == 'fe/qa' }
             }
             steps {
-                deployTodevops('54.205.102.210', 'devops', 'devops', 'http://54.205.102.210:8080/manager/text', '/boxfuse', 'UAT')
+                deployTodevops('54.89.140.121', 'devops', 'devops', 'http://54.89.140.121:8080/manager/text', '/boxfuse', 'UAT')
             }
         }
         stage("Deploy to Prod") {
@@ -49,7 +49,7 @@ pipeline {
                 input(message: "Do you want to proceed to PROD?", ok: "Proceed") // Approval step
 
                 // Deploy to PROD server after approval
-                deployTodevops('44.211.78.56', 'devops', 'devops', 'http://44.211.78.56:8080/manager/text', '/boxfuse', 'Prod')
+                deployTodevops('3.88.232.29', 'devops', 'devops', 'http://3.88.232.29:8080/manager/text', '/boxfuse', 'Prod')
                 
                 // Send Slack notification
                 slackSend(channel: 'devops-after-hours', message: "Deployment to PROD has been approved by manager.")
