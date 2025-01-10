@@ -3,6 +3,9 @@ pipeline {
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'fe/dev', description: 'Specify the branch name to deploy')
     }
+    options {
+        timeout(time: 2, unit: 'MINUTES') // Abort if it takes longer than 10 minutes
+    }
     stages {
         stage("GIT checkout") {
             steps {
