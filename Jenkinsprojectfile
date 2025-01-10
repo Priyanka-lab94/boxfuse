@@ -52,7 +52,7 @@ pipeline {
                 deployTodevops('3.88.232.29', 'devops', 'devops', 'http://3.88.232.29:8080/manager/text', '/boxfuse', 'Prod')
                 
                 // Send Slack notification
-                slackSend(channel: 'devops-after-hours', message: "Deployment to PROD has been approved by manager.")
+                slackSend(channel: '#multi-cloud-devops-mlops', message: "Deployment to PROD has been approved by manager.")
             }
         }
     }
